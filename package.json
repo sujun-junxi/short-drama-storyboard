@@ -1,0 +1,87 @@
+{
+  "name": "short-drama-storyboard",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "短剧分镜生成器 · 支持任意 OpenAI 兼容文本模型与多家文生图服务，一键生成图文分镜脚本",
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "concurrently -n server,web -c cyan,magenta \"npm:dev:server\" \"npm:dev:web\"",
+    "dev:server": "node server/index.mjs",
+    "dev:web": "vite",
+    "typecheck": "tsc --noEmit",
+    "smoke": "node scripts/smoke.mjs",
+    "test:sse": "node scripts/test-sse.mjs",
+    "test:image": "node scripts/test-image.mjs",
+    "build": "tsc --noEmit && vite build",
+    "start": "node server/index.mjs",
+    "desktop": "npm run build && electron .",
+    "desktop:package": "npm run build && bash scripts/package-desktop.sh",
+    "desktop:dist": "npm run build && electron-builder --win --x64",
+    "android:init": "npm run build && cap add android && cap sync android",
+    "android:sync": "npm run build && cap copy android",
+    "android:plugins": "cap sync android",
+    "android:build": "node scripts/build-apk.mjs",
+    "android:open": "cap open android"
+  },
+  "dependencies": {
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/preferences": "^8.0.1",
+    "@radix-ui/react-dialog": "^1.2.0",
+    "@radix-ui/react-label": "^2.1.16",
+    "@radix-ui/react-slot": "^1.4.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dotenv": "^18.0.5",
+    "express": "^5.2.1",
+    "lucide-react": "^1.52.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "tailwind-merge": "^3.7.0"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/cli": "^8.5.2",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.6.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "concurrently": "^10.0.5",
+    "electron": "^44.5.1",
+    "electron-builder": "^26.15.3",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.2"
+  },
+  "build": {
+    "appId": "com.local.storyboard",
+    "productName": "短剧分镜生成器",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**",
+      "server/**",
+      "shared/**",
+      "electron/**",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "portable",
+        "nsis"
+      ]
+    },
+    "portable": {
+      "artifactName": "短剧分镜生成器-${version}-便携版.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "短剧分镜生成器-${version}-安装版.${ext}"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+node_modules
+dist
+release
+android/app/build
+android/build
+android/.gradle
+android/local.properties
+
+# 密钥文件，绝不提交
+.env
+.env.local
+.env*.local
+
+*.log
+.DS_Store
+
+# 配图缓存（运行期生成，不提交）
+.cache
+
+# Windows 快捷方式
+*.lnk
